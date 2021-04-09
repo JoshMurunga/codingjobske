@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Thread;
 use Illuminate\Http\Request;
 
-class ThreadController extends Controller
-{
+class ThreadController extends Controller { 
+    public function __construct() {
+        $this->middleware('auth')->except(['index','show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,9 +27,8 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        return view('threads.create');
     }
 
     /**
@@ -35,9 +37,14 @@ class ThreadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $thread = Thread::create([
+            'user_id' => auth()->id(),
+            'title' => request('title'),
+            'body' => request('body')
+        ]);
+
+        return redirect($thread->path());
     }
 
     /**

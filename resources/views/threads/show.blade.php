@@ -13,6 +13,30 @@
         </div>
     </div>
     <br>
+    @if(auth()->check())
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form method="POST" action="{{ $thread->path() . '/replies' }}">
+                    @csrf
+                    <div class="form-group">
+                        <textarea class="form-control" name="body" id="body" rows="5" placeholder="Something to say?"></textarea>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @else
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center">
+                    please <a href="{{ route('login') }}">login</a>  to add comment
+                </div>
+            </div>
+        </div>
+    @endif
+    <br>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
