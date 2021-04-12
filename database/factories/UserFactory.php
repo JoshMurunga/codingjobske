@@ -23,7 +23,14 @@ $factory->define(User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+        'remember_token' => Str::random(10)
+    ];
+});
+
+$factory->define(App\Channel::class, function (Faker $faker) {
+    return [
+        'name' => $faker->word,
+        'slug' => $faker->word
     ];
 });
 
@@ -32,8 +39,11 @@ $factory->define(App\Thread::class, function(Faker $faker){
         'user_id' => function () {
             return factory('App\User')->create()->id;
         },
+        'channel_id' => function () {
+            return factory('App\Channel')->create()->id;
+        },
         'title' => $faker->sentence,
-        'body' => $faker->paragraph,
+        'body' => $faker->paragraph
     ];
 });
 
@@ -45,6 +55,6 @@ $factory->define(App\Reply::class, function(Faker $faker){
         'thread_id' => function () {
             return factory('App\Thread')->create()->id;
         },
-        'body' => $faker->paragraph,
+        'body' => $faker->paragraph
     ];
 });

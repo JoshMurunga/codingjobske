@@ -11,10 +11,14 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $threads = factory('App\Thread', 50)->create();
+        $channels = factory('App\Channel', 10)->create();
 
-        foreach ($threads as $thread) {
-            factory('App\Reply', 10)->create(['thread_id' => $thread->id]);
+        foreach ($channels as $channel) {
+            $threads = factory('App\Thread', 50)->create(['channel_id' => $channel->id]);
+    
+            foreach ($threads as $thread) {
+                factory('App\Reply', 10)->create(['thread_id' => $thread->id]);
+            }
         }
     }
 }
