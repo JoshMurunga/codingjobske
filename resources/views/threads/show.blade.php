@@ -6,7 +6,19 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <a href="#">{{ $thread->creator->name }}</a> posted: {{ $thread->title }}
+                        <div class="level">
+                            <span class="flex">
+                                <a href="/profiles/{{ $thread->creator->name }}">{{ $thread->creator->name }}</a>
+                                posted:
+                                {{ $thread->title }}
+                            </span>
+
+                            <form action="{{ $thread->path() }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-link">Delete Thread</button>
+                            </form>
+                        </div>
                     </div>
                     <div class="card-body">
                         {{ $thread->body }}
@@ -43,7 +55,9 @@
                     <div class="card-body">
                         <p>
                             This thread was published {{ $thread->created_at->diffForHumans() }} by
-                            <a href="#">{{ $thread->creator->name }}</a>, and currently has
+                            <a href="/profiles/{{ $thread->creator->name }}">
+                                {{ $thread->creator->name }}
+                            </a>, and currently has
                             {{ $thread->replies_count }} {{ Str::plural('comment', $thread->replies_count) }}.
                         </p>
                     </div>
