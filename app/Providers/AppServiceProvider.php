@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 
     /**
@@ -31,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('channels', $channels);
         });
+        
     }
 }

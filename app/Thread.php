@@ -14,6 +14,19 @@ class Thread extends Model {
         static::addGlobalScope('replyCount', function ($builder) {
             $builder->withCount('replies');
         });
+
+        if (auth()->guest()) return;
+
+        static::created(function ($thread) {
+            $thread->activity()->create([
+                'user_id' => auth()->id(),
+                'type' => 'created_' .strtolower((new \ReflectionClass($thread))->getShortName()),
+            ]);
+        });
+    }
+
+    public function activity() {
+        return $this->morphMany(Activity::class, 'subject');
     }
 
     public function path() {

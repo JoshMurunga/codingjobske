@@ -8,6 +8,23 @@ class Reply extends Model {
     protected $guarded = [];
     protected $with = ['owner', 'favorites'];
 
+    protected static function boot() {
+        parent::boot();
+
+        if (auth()->guest()) return;
+        
+        static::created(function ($reply) {
+            $reply->activity()->create([
+                'user_id' => auth()->id(),
+                'type' => 'created_' .strtolower((new \ReflectionClass($reply))->getShortName()),
+            ]);
+        });
+    }
+
+    public function activity() {
+        return $this->morphMany(Activity::class, 'subject');
+    }
+
     public function owner() {
         return $this->belongsTo(User::class, 'user_id');
     }
