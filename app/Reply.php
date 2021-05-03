@@ -19,6 +19,10 @@ class Reply extends Model {
                 'type' => 'created_' .strtolower((new \ReflectionClass($reply))->getShortName()),
             ]);
         });
+
+        static::deleting(function ($reply) {
+            $reply->activity()->delete();
+        });
     }
 
     public function activity() {

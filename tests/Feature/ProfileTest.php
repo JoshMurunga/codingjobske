@@ -19,11 +19,11 @@ class ProfileTest extends TestCase
 
     /** @test */
     public function a_profile_displays_associated_users_threads() {
-        $user = factory('App\User')->create();
+        $this->be($user = factory('App\User')->create());
 
-        $thread = factory('App\Thread')->create(['user_id' => $user->id]);
+        $thread = factory('App\Thread')->create(['user_id' => auth()->id()]);
 
-        $this->get("/profiles/{$user->name}")
+        $this->get("/profiles/". auth()->user()->name)
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }

@@ -23,6 +23,10 @@ class Thread extends Model {
                 'type' => 'created_' .strtolower((new \ReflectionClass($thread))->getShortName()),
             ]);
         });
+
+        static::deleting(function ($thread) {
+            $thread->activity()->delete();
+        });
     }
 
     public function activity() {
