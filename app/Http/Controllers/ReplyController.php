@@ -47,7 +47,7 @@ class ReplyController extends Controller {
             'user_id' => auth()->id()
         ]);
 
-        return back();
+        return back()->with('flash', 'Your Reply Has Been Posted!');
     }
 
     /**
@@ -90,8 +90,13 @@ class ReplyController extends Controller {
      * @param  \App\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reply $reply)
-    {
-        //
+    public function destroy(Reply $reply) {
+        $this->authorize('update', $reply);
+        
+        $reply->favorites->each->delete();
+
+        $reply->delete();
+
+        return back();
     }
 }

@@ -2,13 +2,12 @@
     @slot('heading')
         <a href="/profiles/{{ $activity->subject->owner->name }}">{{ $activity->subject->owner->name }}</a>
         Favorited a reply on
-        <a
-            href="/threads/{{ $activity->subject->path()->pluck('slug')->first() }}/{{ $activity->subject->path()->pluck('id')->first() }}">
-            {{ $activity->subject->path()->pluck('title')->first() }}
+        <a href="{{ $activity->subject->favorited->path() }}">
+            {{ $activity->subject->favorited->thread->title }}
         </a>
     @endslot
 
     @slot('body')
-        {{ $activity->subject->favReply() }}
+        {{ $activity->subject->favorited->body }}
     @endslot
 @endcomponent

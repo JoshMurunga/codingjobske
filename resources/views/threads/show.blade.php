@@ -43,11 +43,11 @@
                     </div>
                 @endif
                 <br>
-                <div class="card">
-                    @foreach ($replies as $reply)
-                        @include ('threads.reply')
-                    @endforeach
-                </div>
+
+                @foreach ($replies as $reply)
+                    @include ('threads.reply')
+                @endforeach
+
                 <br>
                 {{ $replies->links() }}
             </div>
