@@ -19,7 +19,9 @@
         {{ $reply->body }}
     </div>
     @can('update', $reply)
-        <div class="card-footer">
+        <div class="card-footer level">
+            <button class="btn btn-success btn-sm mr-1">Edit</button>
+
             <form action="/replies/{{ $reply->id }}" method="post">
                 @csrf
                 @method('DELETE')

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import "bootstrap/dist/css/bootstrap.css";
 import "../index.css";
 
 class Flash extends Component {
@@ -12,11 +13,11 @@ class Flash extends Component {
     }
   
 	componentDidMount() {
-		let timer = setTimeout(() => this.setState({ showDiv: false }), 3000)
+		this.timer = setTimeout(() => this.setState({ showDiv: false }), 3000)
 	}
 	
 	componentWillUnmount() {
-		clearTimeout(timer);
+		clearTimeout(this.timer);
 	}
 	
     render() {

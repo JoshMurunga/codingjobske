@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model {
     protected $guarded = [];
     protected $with = ['owner', 'favorites'];
+    protected $appends = ['humanCreatedAt','favoritesCount','isFavorited'];
 
     protected static function boot() {
         parent::boot();
@@ -43,8 +44,16 @@ class Reply extends Model {
         }
     }
 
+    public function unfavorite() {
+        $this->favorites()->where(['user_id' => auth()->id()])->get()->each->delete();
+    }
+
     public function isFavorited() {
         return !! $this->favorites->where('user_id', auth()->id())->count();
+    }
+
+    public function getIsFavoritedAttribute() {
+        return $this->isFavorited();
     }
 
     public function getFavoritesCountAttribute() {
@@ -58,4 +67,8 @@ class Reply extends Model {
     public function path() {
         return $this->thread->path() . "#reply-{$this->id}";
     }
+
+    public function getHumanCreatedAtAttribute() {
+		return $this->created_at->diffForHumans();
+	}
 }

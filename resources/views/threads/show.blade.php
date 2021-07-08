@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
+        <div id="thread" data-authorize="{{ auth()->id() }}" data-login="{{ auth()->check() }}"></div>
+        {{-- <div class="row">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
@@ -44,12 +45,11 @@
                 @endif
                 <br>
 
-                @foreach ($replies as $reply)
-                    @include ('threads.reply')
-                @endforeach
+                <div id="reply" data-channel="{{ $thread->channel_id }}" data-id="{{ $thread->id }}"
+                    data-authorize="{{ auth()->id() }}" data-login="{{ auth()->check() }}"></div>
 
                 <br>
-                {{ $replies->links() }}
+
             </div>
             <div class="col-md-4">
                 <div class="card">
@@ -64,6 +64,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
