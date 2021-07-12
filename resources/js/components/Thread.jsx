@@ -36,6 +36,8 @@ class Thread extends Component {
             creator: data.thread.creator,
             currentPage: data.replies.current_page
         });
+
+        window.scrollTo(0, 0);
     }
 
     handlePageChange = (page,type) => {
@@ -47,8 +49,6 @@ class Thread extends Component {
         this.setState({ currentPage: page });
         this.fetchData(page);
         history.pushState(null, null, '?page=' + page);
-        
-        console.log("you are in page ", this.state.currentPage);
     }
 
     handleDeleteThread = async () => {

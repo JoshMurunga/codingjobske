@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
 import Pagination from './pagination';
 import Favorite from './favorite';
-import _ from 'lodash';
 import "bootstrap/dist/css/bootstrap.css";
 import "../index.css";
 
@@ -16,9 +13,7 @@ class Reply extends Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log(this.props.pages)
-    }
+    componentDidUpdate() {}
 
     renderUpdate(user, reply) {
         if (this.props.authorize == user || this.props.authorize == 550) {
@@ -32,11 +27,7 @@ class Reply extends Component {
     }
 
     render() {
-        const { pageSize  } = this.state;
-
         const { replies, login, onReplyChange, onEdit, onReplySubmit, onLike, pages, onPageChange, currentPage } = this.props;
-
-        const startIndex = (currentPage - 1) * pageSize;
 
         return (
             <div>
@@ -69,8 +60,6 @@ class Reply extends Component {
                 ))}
                 <Pagination 
                     pages={pages}
-                    // itemsCount={replies.length} 
-                    // pageSize={pageSize} 
                     currentPage={currentPage} 
                     onPageChange={onPageChange} 
                 />
@@ -81,9 +70,3 @@ class Reply extends Component {
 }
 
 export default Reply;
-
-// if (document.getElementById('reply')) {
-//     const element = document.getElementById('reply')
-//     const props = Object.assign({}, element.dataset)
-//     ReactDOM.render(<Reply {...props} />, element);
-// }

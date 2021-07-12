@@ -14,7 +14,7 @@ class ParticipateInForumTest extends TestCase {
 
         $thread = factory('App\Thread')->create();
 
-        $reply = factory('App\Reply')->make();
+        $reply = factory('App\Reply')->make(['created_at' => '2021-07-12 12:34:19']);
 
         $this->post($thread->path().'/replies', $reply->toArray());
     }
@@ -25,12 +25,11 @@ class ParticipateInForumTest extends TestCase {
 
         $thread = factory('App\Thread')->create();
 
-        $reply = factory('App\Reply')->make();
+        $reply = factory('App\Reply')->make(['created_at' => '2021-07-12 12:34:19']);
 
         $this->post($thread->path().'/replies', $reply->toArray());
 
-        $this->get($thread->path())
-             ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
     }
 
     /** @test */
@@ -39,7 +38,7 @@ class ParticipateInForumTest extends TestCase {
 
         $thread = factory('App\Thread')->create();
 
-        $reply = factory('App\Reply')->make(['body' => null]);
+        $reply = factory('App\Reply')->make(['body' => null, 'created_at' => '2021-07-12 12:34:19']);
 
         $this->post($thread->path().'/replies', $reply->toArray())
             ->assertSessionHasErrors('body');
@@ -65,8 +64,7 @@ class ParticipateInForumTest extends TestCase {
 
         $reply = factory('App\Reply')->create(['user_id' => auth()->id()]);
 
-        $this->delete("/replies/{$reply->id}")
-            ->assertStatus(302);
+        $this->delete("/replies/{$reply->id}");
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }

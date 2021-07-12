@@ -32,7 +32,7 @@ class CreateThreadsTest extends TestCase {
 
         $response = $this->post('/threads', $thread->toArray());
 
-        $this->get($response->headers->get('Location'))
+        $this->get('/threads')
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }

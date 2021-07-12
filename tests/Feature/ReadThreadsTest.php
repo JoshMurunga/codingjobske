@@ -16,26 +16,6 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_view_all_threads()    {
-        $this->get('/threads')
-             ->assertSee($this->thread->title);
-    }
-
-    /** @test */
-    public function a_user_can_view_a_single_thread() {
-        $this->get($this->thread->path())
-             ->assertSee($this->thread->title);
-    }
-
-    /** @test */
-    public function a_user_can_read_replies_to_a_thread() {
-        $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
-
-        $this->get($this->thread->path())
-             ->assertSee($reply->body);
-    }
-
-    /** @test */
     public function a_user_can_filter_threads_according_to_a_tag() {
         $channel = factory('App\Channel')->create();
 
@@ -68,5 +48,16 @@ class ReadThreadsTest extends TestCase
         $response = $this->getJson('threads?popular=1')->json();
 
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
+    }
+
+    /** @test */
+    public function a_user_filter_threads_by_unanswered() {
+        $thread = factory('App\Thread')->create();
+
+        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
+
+        $response = $this->getJson('threads?unanswered=1')->json();
+
+        $this->assertCount(1, $response);
     }
 }

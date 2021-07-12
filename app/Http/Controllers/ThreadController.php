@@ -68,16 +68,11 @@ class ThreadController extends Controller {
      */
     public function show($channel, Thread $thread)
     {
-        // if(request()->wantsJson()){
-        //     return response()->json([
-        //         'thread' => $thread,
-        //         'replies' => $thread->replies()->paginate(2)
-        //     ]);
-        // }
+        
         if(request()->wantsJson()){
             return [
                 'thread' => $thread,
-                'replies' => $thread->replies()->paginate(2)
+                'replies' => $thread->replies()->paginate(10)
             ];
         }
 
